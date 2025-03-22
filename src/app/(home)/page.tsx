@@ -1,8 +1,18 @@
-
-export default function Home() {
+import { HydrateClient, trpc } from "@/trpc/server";
+import PageClient from "./client";
+import { Suspense } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+export default async function Home() {
+  void trpc.hello.prefetch({
+    text: "Venusai",
+  });
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <h1>Hello i am venusai</h1>
-    </div>
+    <HydrateClient>
+      <ErrorBoundary fallback={<div>Something went wrong</div>}>
+        <Suspense fallback={<div>Loading...</div>}>
+          <PageClient />
+        </Suspense>
+      </ErrorBoundary>
+    </HydrateClient>
   );
 }
