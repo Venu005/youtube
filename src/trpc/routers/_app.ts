@@ -8,11 +8,12 @@ export const appRouter = createTRPCRouter({
       })
     )
     .query((opts) => {
+      console.log({ dbUser: opts.ctx.clerkUserId });
       return {
         greeting: `hello ${opts.input.text}`,
       };
     }),
-    // keep adding your functions here
+  // keep adding your functions here
   bye: baseProcedure
     .input(
       z.object({
